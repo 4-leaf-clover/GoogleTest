@@ -16,6 +16,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 
 public class SimpleIME extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener{
@@ -37,7 +39,8 @@ public class SimpleIME extends InputMethodService
 
     //TEXT-TO-SPEECH VARIABLES
     private final String CONFIRM ="Do you confirm the text output?";
-
+    private TextToSpeech mTTS;
+    private final int DATA_CHECK_CODE=0;
 
     //=======================================================================
     //SPEECH-TO-TEXT FUNCTIONS
@@ -91,12 +94,11 @@ public class SimpleIME extends InputMethodService
                 @Override
                 public void onSpeechRecognized(final String text, final boolean isFinal) {
                     InputConnection ic =getCurrentInputConnection();
-                    if (isFinal) {
-                        mVoiceRecorder.dismiss();
-                    }
                     Log.d("STT","Keyboard class speech service listener isFinal value: "+isFinal);
                     if(!TextUtils.isEmpty(text)&&isFinal){
                         ic.commitText(text+". ",1);
+                        Log.d("STT","Keyboard class speech service listener VoiceRecorder dismiss");
+                        mVoiceRecorder.dismiss();
                         SimpleIME.this.stopVoiceRecorder();
                     }
                 }

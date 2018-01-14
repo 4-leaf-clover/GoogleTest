@@ -288,6 +288,7 @@ public class SpeechService extends Service {
      * Finishes recognizing speech audio.
      */
     public void finishRecognizing() {
+        Log.d("STT","Speech service class finishRecognizing");
         if (mRequestObserver == null) {
             return;
         }
